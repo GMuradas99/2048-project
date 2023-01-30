@@ -1,4 +1,5 @@
 from random import randrange,choices
+import copy
 
 # Prints without newline
 def printf(s):
@@ -111,17 +112,29 @@ def moveLeft(row):
 
 # Moves board to the right
 def boardRight(board):
+    prevBoard = copy.deepcopy(board)
     for row in board:
         moveRight(row)
     newTile = getEmptyTile(board)
-    board[newTile[0]][newTile[1]] = getNewTileNumber()
+
+    if sameBoard(prevBoard,board):
+        return False
+    else:
+        board[newTile[0]][newTile[1]] = getNewTileNumber()
+        return True
 
 # Moves board to the left
 def boardLeft(board):
+    prevBoard = copy.deepcopy(board)
     for row in board:
         moveLeft(row)
     newTile = getEmptyTile(board)
-    board[newTile[0]][newTile[1]] = getNewTileNumber()
+    
+    if sameBoard(prevBoard,board):
+        return False
+    else:
+        board[newTile[0]][newTile[1]] = getNewTileNumber()
+        return True
 
 # Moves board up
 def boardUp(board):
@@ -140,3 +153,12 @@ def boardDown(board):
     for i in range(len(board)):
         for j in range(len(board[0])):
             board[i][j] = changedBoard[i][j]
+
+
+# Returns ture if the boards are the same
+def sameBoard(b1,b2):
+    for i in range(len(b1)):
+        for j in range(len(b1[0])):
+            if b1[i][j] != b2[i][j]:
+                return False
+    return True
