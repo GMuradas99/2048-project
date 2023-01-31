@@ -2,18 +2,11 @@ from random import randrange,choices
 
 import copy
 
+##### DISPLAY FUNCTIONS ####
 
 # Prints without newline
 def printf(s):
     print(s,end="")
-
-# Returns the maximum tile on the board
-def getMaxTile(board):
-    maxes = []
-    for row in board:
-        maxes.append(max(row))
-    
-    return max(maxes)
 
 #Colors the numbers
 def colored(fg_color, bg_color, text):
@@ -29,7 +22,7 @@ def displayBoard(board):
     for id, row in enumerate(board):
         printf("|")
         for tile in row:
-            number = colored(0,255,str(tile))
+            number = colored(255,0,str(tile))
 
             if tile == 0:
                 printf("  \033[38;2;75;75;0m"+str(tile)+"\033[0m  ")
@@ -49,6 +42,16 @@ def displayBoard(board):
         else: print("")
     print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾")
 
+#### GETTERS ####
+
+# Returns the maximum tile on the board
+def getMaxTile(board):
+    maxes = []
+    for row in board:
+        maxes.append(max(row))
+    
+    return max(maxes)
+
 # Returns coordinates for an empty tile
 def getEmptyTile(board):
     x = 0
@@ -60,14 +63,6 @@ def getEmptyTile(board):
             break
 
     return x,y
-
-# Returns True if the board has no empty tiles
-def isFull(board):
-    for row in board:
-        if 0 in board:
-            return False
-    
-    return True
 
 # Returns a number for a new tile with the set probability
 def getNewTileNumber(pop = [2,4], w = [0.9,0.1]):
@@ -84,6 +79,8 @@ def getNewBoard(boardSize):
     r[tile2[0]][tile2[1]] = getNewTileNumber()
 
     return r
+
+#### MOVEMENT FUNCTIONS ####
 
 # Moves all zeros to the left
 def zerosLeft(row):
@@ -137,7 +134,7 @@ def moveLeft(row):
     sumLeft(row)
     zerosRight(row)
 
-# Moves board to the right
+# Moves board to the right and spawn new tile
 def boardRight(board):
     prevBoard = copy.deepcopy(board)
     for row in board:
@@ -150,7 +147,7 @@ def boardRight(board):
         board[newTile[0]][newTile[1]] = getNewTileNumber()
         return True
 
-# Moves board to the left
+# Moves board to the left and spawn new tile
 def boardLeft(board):
     prevBoard = copy.deepcopy(board)
     for row in board:
@@ -163,7 +160,7 @@ def boardLeft(board):
         board[newTile[0]][newTile[1]] = getNewTileNumber()
         return True
 
-# Moves board up
+# Moves board up and spawn new tile
 def boardUp(board):
     transposedBoard = list(map(list, zip(*board)))
     boardLeft(transposedBoard)
@@ -172,7 +169,7 @@ def boardUp(board):
         for j in range(len(board[0])):
             board[i][j] = changedBoard[i][j]
 
-# Moves board down
+# Moves board down and spawn new tile
 def boardDown(board):
     transposedBoard = list(map(list, zip(*board)))
     boardRight(transposedBoard)
@@ -181,6 +178,7 @@ def boardDown(board):
         for j in range(len(board[0])):
             board[i][j] = changedBoard[i][j]
 
+#### CHECKERS #### 
 
 # Returns ture if the boards are the same
 def sameBoard(b1,b2):
@@ -188,4 +186,12 @@ def sameBoard(b1,b2):
         for j in range(len(b1[0])):
             if b1[i][j] != b2[i][j]:
                 return False
+    return True
+
+# Returns True if the board has no empty tiles
+def isFull(board):
+    for row in board:
+        if 0 in board:
+            return False
+    
     return True
