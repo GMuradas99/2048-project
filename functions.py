@@ -1,11 +1,53 @@
 from random import randrange,choices
+
 import copy
+
 
 # Prints without newline
 def printf(s):
     print(s,end="")
 
+# Returns the maximum tile on the board
+def getMaxTile(board):
+    maxes = []
+    for row in board:
+        maxes.append(max(row))
+    
+    return max(maxes)
 
+#Colors the numbers
+def colored(fg_color, bg_color, text):
+    r = fg_color
+    result = f'\033[38;2;{r};{r};{r}m{text}'
+    r = bg_color
+    result = f'\033[48;2;{r};{r};{r}m{result}\033[0m'
+    return result
+
+# Displays the board
+def displayBoard(board):
+    print("__________________________")
+    for id, row in enumerate(board):
+        printf("|")
+        for tile in row:
+            number = colored(255,0,str(tile))
+
+            if tile == 0:
+                printf("  \033[38;2;75;75;0m"+str(tile)+"\033[0m  ")
+            elif len(str(tile)) == 1:
+                printf("  "+number+"  ")
+            elif len(str(tile)) == 2:
+                printf(" "+number+"  ")
+            elif len(str(tile)) == 3:
+                printf(" "+number+" ")
+            elif len(str(tile)) == 4:
+                printf(number+" ")
+            elif len(str(tile)) == 5:
+                printf(number)
+            printf(" ")
+        printf("|")
+        if id != len(board)-1: print("\n|                        |")
+        else: print("")
+    print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾")
 
 # Returns coordinates for an empty tile
 def getEmptyTile(board):
