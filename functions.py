@@ -5,22 +5,7 @@ import copy
 def printf(s):
     print(s,end="")
 
-# Displays the board
-def displayBoard(board):
-    for row in board:
-        for tile in row:
-            if len(str(tile)) == 1:
-                printf("  "+str(tile)+"  ")
-            if len(str(tile)) == 2:
-                printf(" "+str(tile)+"  ")
-            if len(str(tile)) == 3:
-                printf(" "+str(tile)+" ")
-            if len(str(tile)) == 4:
-                printf(str(tile)+" ")
-            if len(str(tile)) == 5:
-                printf(tile)
-            printf(" ")
-        print("\n")
+
 
 # Returns coordinates for an empty tile
 def getEmptyTile(board):
