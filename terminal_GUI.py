@@ -11,7 +11,7 @@ displayBoard(board)
 prevBoard = copy.deepcopy(board)
 ans = b'R'
 
-while ans.upper() != b'Q':
+while ans.upper() != b'L':
     ans = msvcrt.getch()
 
     if ans.upper() == b'A':
@@ -26,7 +26,7 @@ while ans.upper() != b'Q':
     elif ans.upper() == b'S':
         prevBoard = copy.deepcopy(board)
         boardDown(board)
-    elif ans.upper() == b'E':
+    elif ans.upper() == b'E' or ans.upper() == b'Q':
         board = copy.deepcopy(prevBoard)
 
     displayBoard(board)
