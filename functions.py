@@ -29,7 +29,7 @@ def displayBoard(board):
     for id, row in enumerate(board):
         printf("|")
         for tile in row:
-            number = colored(255,0,str(tile))
+            number = colored(0,255,str(tile))
 
             if tile == 0:
                 printf("  \033[38;2;75;75;0m"+str(tile)+"\033[0m  ")
