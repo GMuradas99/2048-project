@@ -255,3 +255,31 @@ def boardFull(board):
             return False
     
     return True
+
+#Returns true if a move to the right is possible
+def possibleRight(board):
+    nextBoard = copy.deepcopy(board)
+    boardRight(nextBoard)
+
+    return not sameBoard(board,nextBoard)
+
+#Returns true if a move to the left is possible
+def possibleLeft(board):
+    nextBoard = copy.deepcopy(board)
+    boardLeft(nextBoard)
+
+    return not sameBoard(board,nextBoard)
+
+#Returns true if a move Up is possible
+def possibleUp(board):
+    nextBoard = copy.deepcopy(board)
+    boardUp(nextBoard)
+
+    return not sameBoard(board,nextBoard)
+
+#Returns true if a move Down is possible
+def possibleDown(board):
+    nextBoard = copy.deepcopy(board)
+    boardDown(nextBoard)
+
+    return not sameBoard(board,nextBoard)

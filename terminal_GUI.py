@@ -34,6 +34,6 @@ while ans.upper() != b'L':
     #Update board
     print(f'Score: {board.getScore()}')
     board.display()
-    print(board.getLogarithmicVector())
+    print(board.getPossibleMoves())
 
 

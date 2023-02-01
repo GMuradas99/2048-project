@@ -26,6 +26,21 @@ class Board(object):
     # Returns a one dimensional vector with the logarithm in base 2 of the tiles
     def getLogarithmicVector(self):
         return getLV(self.board)
+    # Returns a list with the possible moves
+    def getPossibleMoves (self):
+        result = []
+        if possibleRight(self.board):
+            result.append('Right')
+        if possibleLeft(self.board):
+            result.append('Left')
+        if possibleUp(self.board):
+            result.append('Up')
+        if possibleDown(self.board):
+            result.append('Down')
+        if not sameBoard(self.board, self.prevBoard):
+            result.append('Undo')
+        
+        return result
 
     ### Checks ###
     #Returns true if the board is full
