@@ -1,6 +1,6 @@
 # 2048-project
 
-Set of logic to implement a perfect 2048 player. Includes a functions.py file with all the necessary functions to manage the board as well as the implementation of a main script that displays a board on the terminal.
+Set of logic to implement a perfect 2048 player. Includes a class with all the necessary functions to manage the board as well as the implementation of a main script that displays a board on the terminal.
 
 Control the terminal GUI with WASD, Q and E to undo a move and L to leave the game.
 
