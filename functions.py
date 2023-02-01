@@ -1,4 +1,5 @@
 from random import randrange,choices
+import math
 
 import copy
 
@@ -117,6 +118,15 @@ def getPotentialGainSideways(board):
 def getPotentialGainVertically(board):
     transposedBoard = list(map(list, zip(*board)))
     return getPotentialGainSideways(transposedBoard)
+
+# Returns one dimensional vector of the board with the logarithms in base 2 of the tiles
+def getLV(board):
+    flatList = [item for sublist in board for item in sublist]
+    result = []
+    for i in range(len(flatList)):
+        if flatList[i] != 0:
+            flatList[i] = int(math.log(flatList[i],2))
+    return flatList
 
 #### MOVEMENT FUNCTIONS ####
 

@@ -23,6 +23,9 @@ class Board(object):
     # Returns the current score of the Board
     def getScore(self):
         return self.score
+    # Returns a one dimensional vector with the logarithm in base 2 of the tiles
+    def getLogarithmicVector(self):
+        return getLV(self.board)
 
     ### Checks ###
     #Returns true if the board is full
