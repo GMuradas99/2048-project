@@ -3,7 +3,7 @@ from boardClass import Board
 
 import msvcrt
 
-BOARD_SIZE = 3
+BOARD_SIZE = 4
 
 # Creating New board
 board = Board(BOARD_SIZE)
@@ -14,7 +14,6 @@ ans = b'R'
 
 #Main Loop (PRESS L TO LEAVE)
 while ans.upper() != b'L':
-    #Variable to keep track of score (and check if a move is valid)
 
     # Wait for users input
     ans = msvcrt.getch()
