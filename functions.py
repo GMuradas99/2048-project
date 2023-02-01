@@ -90,6 +90,34 @@ def getNewBoard(boardSize):
 
     return r
 
+# Returns the potential score gain of moving a row
+def getPotentialGain(row):
+    result = 0
+    pointer = row[0]
+    for i in range(1, len(row)):
+        if pointer == 0:
+            pointer = row[i]
+        elif pointer == row[i]:
+            result += pointer*2
+            pointer = 0
+        elif pointer != row[i] and row[i] != 0: 
+            pointer = row[i] 
+
+    return result
+
+# Returns the potential score gain of moving a board sideways
+def getPotentialGainSideways(board):
+    result = 0
+    for row in board:
+        result += getPotentialGain(row)
+    
+    return result
+
+# Returns the potential score gain of moving a board vertically
+def getPotentialGainVertically(board):
+    transposedBoard = list(map(list, zip(*board)))
+    return getPotentialGainSideways(transposedBoard)
+
 #### MOVEMENT FUNCTIONS ####
 
 # Moves all zeros to the left

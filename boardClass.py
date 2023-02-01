@@ -80,3 +80,14 @@ class Board(object):
         self.board = copy.deepcopy(self.prevBoard)
         self.score = self.prevScore
         return difference
+
+    ### Reinforcement Learning Functions ###
+    # Returns the potential score gain by moving the board sideways
+    def potentialGainSideways(self):
+        return getPotentialGainSideways(self.board)
+    # Returns the potential score gain by moving the board vertically
+    def potentialGainVertically(self):
+        return getPotentialGainVertically(self.board)
+    # Returns the potential score gain by undoing the last move
+    def potentialGainUndo(self):
+        return self.prevScore - self.score
