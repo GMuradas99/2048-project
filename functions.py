@@ -18,7 +18,10 @@ def colored(fg_color, bg_color, text):
 
 # Displays the board
 def displayBoard(board):
-    print("__________________________")
+    printf("_")
+    for _ in range(len(board)):
+        printf("______")
+    print("_")
     for id, row in enumerate(board):
         printf("|")
         for tile in row:
@@ -38,9 +41,16 @@ def displayBoard(board):
                 printf(number)
             printf(" ")
         printf("|")
-        if id != len(board)-1: print("\n|                        |")
+        if id != len(board)-1: 
+            printf("\n|")
+            for _ in range(len(board)):
+                printf("      ")
+            print("|")
         else: print("")
-    print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾")
+    printf("‾")
+    for _ in range(len(board)):
+        printf("‾‾‾‾‾‾")
+    print("‾")
 
 #### GETTERS ####
 
@@ -98,7 +108,7 @@ def zerosLeft(row):
 def sumRight(row):
     result = 0
     for i in range(len(row)-1):
-        j = 3-i
+        j = len(row)-1-i
         if row[j] == row[j-1]:
             row[j-1] = 0
             result += row[j]*2
@@ -109,7 +119,7 @@ def sumRight(row):
 def zerosRight(row):
     result = []
     for i in range(len(row)):
-        j = 3-i
+        j = len(row)-1-i
         if row[j] == 0:
             result.append(row[j])
         else:

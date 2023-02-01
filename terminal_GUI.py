@@ -2,9 +2,8 @@ from functions import *
 from boardClass import Board
 
 import msvcrt
-import copy
 
-BOARD_SIZE = 4
+BOARD_SIZE = 3
 
 # Creating New board
 board = Board(BOARD_SIZE)
