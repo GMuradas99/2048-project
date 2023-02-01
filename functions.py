@@ -201,8 +201,8 @@ def sameBoard(b1,b2):
     return True
 
 # Returns True if the board has no empty tiles
-def isFull(board):
-    for row in board:
+def boardFull(board):
+    for _ in board:
         if 0 in board:
             return False
     
