@@ -94,13 +94,16 @@ def zerosLeft(row):
     for i in range(len(row)):
         row[i] = result[i]
 
-# Adds the same tiles to the Right
+# Adds the same tiles to the Right returns the puntuation gained from the sums
 def sumRight(row):
+    result = 0
     for i in range(len(row)-1):
         j = 3-i
         if row[j] == row[j-1]:
             row[j-1] = 0
+            result += row[j]*2
             row[j] = row[j]*2
+    return result
 
 # Moves all zeros to the rigth
 def zerosRight(row):
@@ -115,68 +118,77 @@ def zerosRight(row):
     for i in range(len(row)):
         row[i] = result[i]
 
-# Adds the same tiles to the Left
+# Adds the same tiles to the Left returns the puntuation gained from the sums
 def sumLeft(row):
+    result = 0
     for i in range(len(row)-1):
         if row[i] == row[i+1]:
             row[i+1] = 0
+            result += row[i]*2
             row[i] = row[i]*2
+    return result
 
-# Move row to the right
+# Move row to the right returns the puntuation gained from the move 
 def moveRight(row):
     zerosLeft(row)
-    sumRight(row)
+    r = sumRight(row)
     zerosLeft(row)
+    return r
 
-# Move row to the left
+# Move row to the left returns the puntuation gained from the move
 def moveLeft(row):
     zerosRight(row)
-    sumLeft(row)
+    r = sumLeft(row)
     zerosRight(row)
+    return r
 
-# Moves board to the right and spawn new tile
+# Moves board to the right and spawn new tile returns the puntuation gained from the move (-1 if the move is not possible)
 def boardRight(board):
+    result = 0
     prevBoard = copy.deepcopy(board)
     for row in board:
-        moveRight(row)
+        result += moveRight(row)
     newTile = getEmptyTile(board)
 
     if sameBoard(prevBoard,board):
-        return False
+        return -1
     else:
         board[newTile[0]][newTile[1]] = getNewTileNumber()
-        return True
+        return result
 
-# Moves board to the left and spawn new tile
+# Moves board to the left and spawn new tile returns the puntuation gained from the move (-1 if the move is not possible)
 def boardLeft(board):
+    result = 0
     prevBoard = copy.deepcopy(board)
     for row in board:
-        moveLeft(row)
+        result += moveLeft(row)
     newTile = getEmptyTile(board)
     
     if sameBoard(prevBoard,board):
-        return False
+        return -1
     else:
         board[newTile[0]][newTile[1]] = getNewTileNumber()
-        return True
+        return result
 
-# Moves board up and spawn new tile
+# Moves board up and spawn new tile returns the puntuation gained from the move (-1 if the move is not possible)
 def boardUp(board):
     transposedBoard = list(map(list, zip(*board)))
-    boardLeft(transposedBoard)
+    r = boardLeft(transposedBoard)
     changedBoard = list(map(list, zip(*transposedBoard)))
     for i in range(len(board)):
         for j in range(len(board[0])):
             board[i][j] = changedBoard[i][j]
+    return r
 
-# Moves board down and spawn new tile
+# Moves board down and spawn new tile returns the puntuation gained from the move (-1 if the move is not possible)
 def boardDown(board):
     transposedBoard = list(map(list, zip(*board)))
-    boardRight(transposedBoard)
+    r = boardRight(transposedBoard)
     changedBoard = list(map(list, zip(*transposedBoard)))
     for i in range(len(board)):
         for j in range(len(board[0])):
             board[i][j] = changedBoard[i][j]
+    return r
 
 #### CHECKERS #### 
 
