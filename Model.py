@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Tuple
 from random import choices, randrange
+from tkinter import Frame, Label, CENTER
 
 
 class Playable2048(ABC):
@@ -73,9 +74,110 @@ class Model(Playable2048):
 
         return matrix
 
+    def get_matrix(self) -> List[List[int]]:
+        return self.matrix
 
-model = Model(4)
-board = model.matrix
 
-for row in board:
-    print(row)
+class Controller:
+    def __init__(self, model, view):
+        self.model = model
+        self.view = view
+
+    def start(self):
+        self.view.setup(self)
+        self.view.start_main_loop()
+
+
+# class TkView(View):
+#     def setup(self, controller):
+#         # setup tkinter
+#         self.root = tk.Tk()
+#         self.root.geometry("400x400")
+#         self.root.title("UUIDGen")
+#
+#         # create the gui
+#         self.frame = tk.Frame(self.root)
+#         self.frame.pack(fill=tk.BOTH, expand=1)
+#         self.label = tk.Label(self.frame, text="Result:")
+#         self.label.pack()
+#         self.list = tk.Listbox(self.frame)
+#         self.list.pack(fill=tk.BOTH, expand=1)
+#         self.generate_uuid_button = tk.Button(self.frame, text="Generate UUID",
+#                                               command=controller.handle_click_generate_uuid)
+#         self.generate_uuid_button.pack()
+#         self.clear_button = tk.Button(self.frame, text="Clear list", command=controller.handle_click_clear_list)
+#         self.clear_button.pack()
+#
+#     def start_main_loop(self):
+#         # start the loop
+#         self.root.mainloop()
+
+
+class GameGrid(Frame):
+    def __init__(self, matrix):
+        Frame.__init__(self)
+        self.grid()
+        self.master.title('2048')
+
+        self.grid_cells = []
+        self.matrix = matrix
+        self.init_grid()
+        self.update_grid_cells()
+
+        self.mainloop()
+
+    def init_grid(self):
+        background = Frame(self, bg="white", width=500, height=500)
+        background.grid()
+
+        for i in range(len(self.matrix)):
+            grid_row = []
+            for j in range(len(self.matrix[0])):
+                cell = Frame(
+                    background,
+                    bg="grey",
+                    width=500 / len(self.matrix),
+                    height=500 / len(self.matrix)
+                )
+                cell.grid(
+                    row=i,
+                    column=j,
+                    padx=5,
+                    pady=5
+                )
+                t = Label(
+                    master=cell,
+                    text="",
+                    bg="grey",
+                    justify=CENTER,
+                    font=("Verdana", 40, "bold"),
+                    width=5,
+                    height=2
+                )
+                t.grid()
+                grid_row.append(t)
+            self.grid_cells.append(grid_row)
+
+    def update_grid_cells(self):
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix[0])):
+                number = self.matrix[i][j]
+                if number == 0:
+                    self.grid_cells[i][j].configure(text="", bg="grey")
+                else:
+                    self.grid_cells[i][j].configure(
+                        text=str(number),
+                        bg="red" if number % 2 == 0 else "blue",
+                        fg="white"
+                    )
+        self.update_idletasks()
+
+
+# create the MVC & start the application
+# c = Controller(Model(4), TkView())
+# c.start()
+
+game2048 = Model(4)
+matrix = game2048.get_matrix()
+GameGrid(matrix)
+
