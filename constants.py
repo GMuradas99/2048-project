@@ -1,5 +1,5 @@
 SIZE = 400
-GRID_LEN = 8
+GRID_LEN = 4
 GRID_PADDING = 5
 
 BACKGROUND_COLOR_GAME = "#92877d"
@@ -43,7 +43,7 @@ CELL_COLOR_DICT = {
 65536:  "#f9f6f2",
 }
 
-FONT = ("Verdana",20,"bold")
+FONT = ("Verdana", 20, "bold")
 
 KEY_QUIT = "Escape"
 KEY_BACK = "b"
