@@ -3,11 +3,12 @@ from functions import *
 # Class to represent the Board object
 class Board(object):
     # Constructor
-    def __init__(self, boardSize):
+    def __init__(self, boardSize, mode = 'power'):
         self.board = getNewBoard(boardSize)
         self.score = 0
-        self.prevBoard = None
+        self.prevBoard = copy.deepcopy(self.board)
         self.prevScore = 0
+        self.weightVector = getWeightMap(boardSize,mode)
 
     #Displayer
     def display(self, displayScore = True):
@@ -29,6 +30,9 @@ class Board(object):
     # Returns a one dimensional vector with the logarithm in base 2 of the tiles
     def getLogarithmicVector(self):
         return getLV(self.board)
+    # Returns one dimensional vector of the row (power of 2)
+    def getPowerVector(self):
+        return getPV(self.board)
     # Returns a list with the possible moves
     def getPossibleMoves (self):
         result = []
@@ -44,6 +48,9 @@ class Board(object):
             result.append('Undo')
         
         return result
+    # Returns the position score of the board at the current position
+    def positionScore(self):
+        return boardPositionScore(self.getLogarithmicVector(), self.weightVector)
 
     ### Checks ###
     #Returns true if the board is full
@@ -112,3 +119,27 @@ class Board(object):
     # Returns the potential score gain by undoing the last move
     def potentialGainUndo(self):
         return self.prevScore - self.score
+    # Returns ordered list of tuples with the potential possible positional scores
+    def potentialPositionalScores(self):
+        result = []
+        moves = self.getPossibleMoves()
+        for move in moves:
+            # Undo not included (YET)
+            if move == 'Right':
+                temp = copy.deepcopy(self.board)
+                boardRight(temp)
+                result.append((move,boardPositionScore(getLV(temp),self.weightVector)))
+            if move == 'Left':
+                temp = copy.deepcopy(self.board)
+                boardLeft(temp)
+                result.append((move,boardPositionScore(getLV(temp),self.weightVector)))
+            if move == 'Up':
+                temp = copy.deepcopy(self.board)
+                boardUp(temp)
+                result.append((move,boardPositionScore(getLV(temp),self.weightVector)))
+            if move == 'Down':
+                temp = copy.deepcopy(self.board)
+                boardDown(temp)
+                result.append((move,boardPositionScore(getLV(temp),self.weightVector)))
+
+        return sorted(result, reverse = True, key = lambda x :x[1])

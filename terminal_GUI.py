@@ -32,4 +32,6 @@ while ans.upper() != b'L':
 
     #Update board
     board.display()
+    print("Positional Score:",board.positionScore())
+    print(board.potentialPositionalScores())
 

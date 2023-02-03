@@ -1,5 +1,4 @@
 from random import randrange,choices
-import math
 
 import copy
 
@@ -128,6 +127,47 @@ def getLV(board):
     #     if flatList[i] != 0:
     #         flatList[i] = int(math.log(flatList[i],2))
     return flatList
+
+# Returns one dimensional vector of the row (power of 2)
+def getPV(board):
+    flatList = [item for sublist in board for item in sublist]
+    for i in range(len(flatList)):
+        if flatList[i] != 0:
+            flatList[i] = pow(2,flatList[i])
+    return flatList
+
+#Returns weight map for specified board size modes => ['power', 'logarithm']
+def getWeightMap(size, mode):
+    if mode not in ['power','logarithm']:
+        print('Error:',mode,'mode not supported.')
+    perfectTiles = []
+    if mode == 'power':
+        for i in range(pow(size,2)):
+            perfectTiles.append(pow(2,i+2))
+    if mode == 'logarithm':
+        for i in range(pow(size,2)):
+            perfectTiles.append(i+2)
+    # Normalization
+    perfectTiles = [float(i)/sum(perfectTiles) for i in perfectTiles]
+
+    firstRow = perfectTiles[:size]
+    thirdRow = perfectTiles[size*2:size*3]
+    firstRow.reverse()
+    thirdRow.reverse()
+
+    adjustedPositions = firstRow + perfectTiles[size:size*2] + thirdRow + perfectTiles[size*3:]
+
+    return adjustedPositions
+
+#### CALCULATIONS ####
+
+# Returns the score of the current board position:
+def boardPositionScore(boardVector, weightMap):
+    result = 0
+    for i,tile in enumerate(boardVector):
+        result += tile * weightMap[i]
+
+    return result
 
 #### MOVEMENT FUNCTIONS ####
 
