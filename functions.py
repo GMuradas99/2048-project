@@ -150,8 +150,6 @@ def getWeightMap(size, mode):
     # Normalization
     perfectTiles = [float(i)/sum(perfectTiles) for i in perfectTiles]
 
-    print(perfectTiles)
-
     adjustedPositions = []
     c = 0
     while len(perfectTiles) != 0:
