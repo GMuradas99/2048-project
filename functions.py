@@ -150,13 +150,23 @@ def getWeightMap(size, mode):
     # Normalization
     perfectTiles = [float(i)/sum(perfectTiles) for i in perfectTiles]
 
-    firstRow = perfectTiles[:size]
-    thirdRow = perfectTiles[size*2:size*3]
-    firstRow.reverse()
-    thirdRow.reverse()
+    print(perfectTiles)
 
-    adjustedPositions = firstRow + perfectTiles[size:size*2] + thirdRow + perfectTiles[size*3:]
+    adjustedPositions = []
+    c = 0
+    while len(perfectTiles) != 0:
+        if c != size:
+            adjustedPositions.append(perfectTiles.pop())
+            c += 1
+        else: 
+            temp = []
+            for i in range(size):
+                temp.append(perfectTiles.pop())
+            temp.reverse()
+            adjustedPositions = adjustedPositions + temp
+            c = 0
 
+    adjustedPositions.reverse()
     return adjustedPositions
 
 # Returns a list with the possible moves
