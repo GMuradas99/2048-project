@@ -237,6 +237,10 @@ def boardRight(board):
     prevBoard = copy.deepcopy(board)
     for row in board:
         result += moveRight(row)
+
+    if sameBoard(prevBoard,board):
+        return -1
+    
     newTile = getEmptyTile(board)
 
     if sameBoard(prevBoard,board):
@@ -251,6 +255,10 @@ def boardLeft(board):
     prevBoard = copy.deepcopy(board)
     for row in board:
         result += moveLeft(row)
+
+    if sameBoard(prevBoard,board):
+        return -1
+
     newTile = getEmptyTile(board)
     
     if sameBoard(prevBoard,board):
@@ -300,6 +308,8 @@ def boardFull(board):
 #Returns true if a move to the right is possible
 def possibleRight(board):
     nextBoard = copy.deepcopy(board)
+
+
     boardRight(nextBoard)
 
     return not sameBoard(board,nextBoard)

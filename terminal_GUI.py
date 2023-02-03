@@ -10,7 +10,6 @@ board = Board(BOARD_SIZE)
 
 board.display()
 ans = b'R'
-
 #Main Loop (PRESS L TO LEAVE)
 while ans.upper() != b'L':
 
@@ -19,13 +18,13 @@ while ans.upper() != b'L':
 
     #Different movement options (4 space directions)
     if ans.upper() == b'A':
-        addScore = board.left()
+        board.left()
     elif ans.upper() == b'D':
-        addScore = board.right()
+        board.right()
     elif ans.upper() == b'W':
-        addScore = board.up()
+        board.up()
     elif ans.upper() == b'S':
-        addScore = board.down()
+        board.down()
     #Return to previous boardd
     if ans.upper() == b'E' or ans.upper() == b'Q':
         board.undo()
@@ -33,5 +32,3 @@ while ans.upper() != b'L':
     #Update board
     board.display()
     print("Positional Score:",board.positionScore())
-    print(board.potentialPositionalScores())
-

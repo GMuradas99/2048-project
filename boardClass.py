@@ -1,3 +1,7 @@
+import sys
+
+sys.path.pop()
+
 from functions import *
 
 # Class to represent the Board object
@@ -36,6 +40,7 @@ class Board(object):
     # Returns a list with the possible moves
     def getPossibleMoves (self):
         result = []
+        
         if possibleRight(self.board):
             result.append('Right')
         if possibleLeft(self.board):
@@ -47,10 +52,16 @@ class Board(object):
         if not sameBoard(self.board, self.prevBoard):
             result.append('Undo')
         
+
         return result
     # Returns the position score of the board at the current position
     def positionScore(self):
         return boardPositionScore(self.getLogarithmicVector(), self.weightVector)
+
+    ### Setters ###
+    # Sets the board as the input one
+    def setBoard(self,newBoard):
+        self.board = newBoard
 
     ### Checks ###
     #Returns true if the board is full
@@ -108,6 +119,21 @@ class Board(object):
         self.board = copy.deepcopy(self.prevBoard)
         self.score = self.prevScore
         return difference
+    # Performs the move indicated by the String
+    def moveString(self, string):
+        addition = 0
+        if string == 'Right':
+            addition = self.right()
+        elif string == 'Left':
+            addition = self.left()
+        elif string == 'Up':
+            addition = self.up()
+        elif string == 'Down':
+            addition = self.down()
+        elif string == 'Undo':
+            addition = self.undo()
+        return addition
+
 
     ### Reinforcement Learning Functions ###
     # Returns the potential score gain by moving the board sideways
