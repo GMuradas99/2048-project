@@ -17,8 +17,10 @@ def colored(fg_color, bg_color, text):
     result = f'\033[48;2;{r};{r};{r}m{result}\033[0m'
     return result
 
-# Displays the board
-def displayBoard(board):
+# Displays the board, input -1 into the score if it shoud be hidden
+def displayBoard(board, score):
+    if score != -1:
+        print("\033[38;2;200;200;0mScore:\033[0m",score)
     printf("_")
     for _ in range(len(board)):
         printf("______")
@@ -26,19 +28,19 @@ def displayBoard(board):
     for id, row in enumerate(board):
         printf("|")
         for tile in row:
-            number = colored(255,0,str(tile))
+            number = colored(255,0,str(pow(2,tile)))
 
             if tile == 0:
                 printf("  \033[38;2;75;75;0m"+str(tile)+"\033[0m  ")
-            elif len(str(tile)) == 1:
+            elif len(str(pow(2,tile))) == 1:
                 printf("  "+number+"  ")
-            elif len(str(tile)) == 2:
+            elif len(str(pow(2,tile))) == 2:
                 printf(" "+number+"  ")
-            elif len(str(tile)) == 3:
+            elif len(str(pow(2,tile))) == 3:
                 printf(" "+number+" ")
-            elif len(str(tile)) == 4:
+            elif len(str(pow(2,tile))) == 4:
                 printf(number+" ")
-            elif len(str(tile)) == 5:
+            elif len(str(pow(2,tile))) == 5:
                 printf(number)
             printf(" ")
         printf("|")
@@ -76,7 +78,7 @@ def getEmptyTile(board):
     return x,y
 
 # Returns a number for a new tile with the set probability
-def getNewTileNumber(pop = [2,4], w = [0.9,0.1]):
+def getNewTileNumber(pop = [1,2], w = [0.9,0.1]):
     result = choices(population=pop, weights=w, k=1)
 
     return result[0]
@@ -99,7 +101,7 @@ def getPotentialGain(row):
         if pointer == 0:
             pointer = row[i]
         elif pointer == row[i]:
-            result += pointer*2
+            result += pow(2,pointer)*2
             pointer = 0
         elif pointer != row[i] and row[i] != 0: 
             pointer = row[i] 
@@ -122,10 +124,9 @@ def getPotentialGainVertically(board):
 # Returns one dimensional vector of the board with the logarithms in base 2 of the tiles
 def getLV(board):
     flatList = [item for sublist in board for item in sublist]
-    result = []
-    for i in range(len(flatList)):
-        if flatList[i] != 0:
-            flatList[i] = int(math.log(flatList[i],2))
+    # for i in range(len(flatList)):
+    #     if flatList[i] != 0:
+    #         flatList[i] = int(math.log(flatList[i],2))
     return flatList
 
 #### MOVEMENT FUNCTIONS ####
@@ -147,10 +148,10 @@ def sumRight(row):
     result = 0
     for i in range(len(row)-1):
         j = len(row)-1-i
-        if row[j] == row[j-1]:
+        if row[j] == row[j-1] and row[j] > 0:
             row[j-1] = 0
-            result += row[j]*2
-            row[j] = row[j]*2
+            result += pow(2,row[j])*2
+            row[j] += 1
     return result
 
 # Moves all zeros to the rigth
@@ -170,10 +171,10 @@ def zerosRight(row):
 def sumLeft(row):
     result = 0
     for i in range(len(row)-1):
-        if row[i] == row[i+1]:
+        if row[i] == row[i+1] and row[i] > 0:
             row[i+1] = 0
-            result += row[i]*2
-            row[i] = row[i]*2
+            result += pow(2,row[i])*2
+            row[i] += 1
     return result
 
 # Move row to the right returns the puntuation gained from the move 

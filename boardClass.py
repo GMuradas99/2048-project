@@ -10,8 +10,11 @@ class Board(object):
         self.prevScore = 0
 
     #Displayer
-    def display(self):
-        displayBoard(self.board)
+    def display(self, displayScore = True):
+        if not displayScore:
+            displayBoard(self.board, -1)
+        if displayScore:
+            displayBoard(self.board, self.score)
 
     ### Getters ###
     # Returns the list of lists

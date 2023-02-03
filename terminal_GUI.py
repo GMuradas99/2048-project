@@ -8,7 +8,6 @@ BOARD_SIZE = 4
 # Creating New board
 board = Board(BOARD_SIZE)
 
-print(f'Score: {board.getScore()}')
 board.display()
 ans = b'R'
 
@@ -27,13 +26,10 @@ while ans.upper() != b'L':
         addScore = board.up()
     elif ans.upper() == b'S':
         addScore = board.down()
-    #Return to previous board
+    #Return to previous boardd
     if ans.upper() == b'E' or ans.upper() == b'Q':
         board.undo()
 
     #Update board
-    print(f'Score: {board.getScore()}')
     board.display()
-    print(board.getPossibleMoves())
-
 
