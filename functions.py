@@ -204,10 +204,13 @@ def getPotentialPositionalScores(board, prevBoard, weightVector):
 #### CALCULATIONS ####
 
 # Returns the score of the current board position:
-def boardPositionScore(boardVector, weightMap):
+def boardPositionScore(boardVector, weightMap, mode = 'power'):
     result = 0
     for i,tile in enumerate(boardVector):
-        result += tile * weightMap[i]
+        if mode == 'logarithmic':
+            result += tile * weightMap[i]
+        if mode == 'power':
+            result += pow(2,tile) * weightMap[i]
 
     return result
 
