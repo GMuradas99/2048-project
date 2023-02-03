@@ -1,6 +1,9 @@
 from functions import *
 from boardClass import Board
 
+# DELETE
+from test import performSearch
+
 import msvcrt
 
 BOARD_SIZE = 4
@@ -31,4 +34,4 @@ while ans.upper() != b'L':
 
     #Update board
     board.display()
-    print("Positional Score:",board.positionScore())
+    print("Best Move",performSearch(5, board.getBoard(), board.getBoard(), board.getWeightVector()))

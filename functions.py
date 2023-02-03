@@ -159,6 +159,48 @@ def getWeightMap(size, mode):
 
     return adjustedPositions
 
+# Returns a list with the possible moves
+def getPossibleMovesOfBoard(board, prevBoard):
+    result = []
+    
+    if possibleRight(board):
+        result.append('Right')
+    if possibleLeft(board):
+        result.append('Left')
+    if possibleUp(board):
+        result.append('Up')
+    if possibleDown(board):
+        result.append('Down')
+    if not sameBoard(board, prevBoard):
+        result.append('Undo')
+    
+    return result
+        
+ # Returns ordered list of tuples with the potential possible positional scores
+def getPotentialPositionalScores(board, prevBoard, weightVector):
+    result = []
+    moves = getPossibleMovesOfBoard(board, prevBoard)
+    for move in moves:
+        # Undo not included (YET)
+        if move == 'Right':
+            temp = copy.deepcopy(board)
+            boardRight(temp)
+            result.append([move,boardPositionScore(getLV(temp), weightVector)])
+        if move == 'Left':
+            temp = copy.deepcopy(board)
+            boardLeft(temp)
+            result.append([move,boardPositionScore(getLV(temp), weightVector)])
+        if move == 'Up':
+            temp = copy.deepcopy(board)
+            boardUp(temp)
+            result.append([move,boardPositionScore(getLV(temp), weightVector)])
+        if move == 'Down':
+            temp = copy.deepcopy(board)
+            boardDown(temp)
+            result.append([move,boardPositionScore(getLV(temp), weightVector)])
+
+    return sorted(result, reverse = True, key = lambda x :x[1])
+
 #### CALCULATIONS ####
 
 # Returns the score of the current board position:
@@ -168,6 +210,38 @@ def boardPositionScore(boardVector, weightMap):
         result += tile * weightMap[i]
 
     return result
+
+# Performs search of specified depth to get the best move
+def performSearch(depth,board,prevBoard,weightVector, debug = False):
+    if depth == 1:
+        moves = getPotentialPositionalScores(board,prevBoard,weightVector)
+        if len(moves) == 0:
+            return []
+        s = moves[0]
+
+        if debug:
+            print(s[0])
+
+        return s
+    else: 
+        moves = getPotentialPositionalScores(board,prevBoard,weightVector)
+        if len(moves) == 0:
+            return []
+        for move in moves:
+            temp = copy.deepcopy(board)
+            moveBoardWithString(temp, move[0])
+            tempPrev = copy.deepcopy(board)
+            next = performSearch(depth-1, temp, tempPrev, weightVector, debug)
+            if len(next) != 0:
+                move[1] += next[1]
+        s = sorted(moves, reverse = True, key = lambda x :x[1])
+
+        if debug:
+            for _ in range(depth):
+                print("-",end='')
+            print(s[0][0])
+
+        return s[0]
 
 #### MOVEMENT FUNCTIONS ####
 
@@ -286,6 +360,17 @@ def boardDown(board):
         for j in range(len(board[0])):
             board[i][j] = changedBoard[i][j]
     return r
+
+# Moves board in specified direction
+def moveBoardWithString(board, string):
+    if string == "Right":
+        boardRight(board)
+    if string == "Left":
+        boardLeft(board)
+    if string == "Up":
+        boardUp(board)
+    if string == "Down":
+        boardDown(board)
 
 #### CHECKERS #### 
 
