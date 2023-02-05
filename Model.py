@@ -1,3 +1,4 @@
+import copy
 from abc import ABC, abstractmethod
 from typing import List, Tuple
 from random import choices, randrange
@@ -38,6 +39,54 @@ class Playable2048(ABC):
         """
         pass
 
+    @abstractmethod
+    def move_up(self):
+        pass
+
+    @abstractmethod
+    def move_left(self):
+        pass
+
+    @abstractmethod
+    def move_down(self):
+        pass
+
+    @abstractmethod
+    def move_right(self):
+        pass
+
+    @abstractmethod
+    def zeros_right(self, row: List[int]):
+        pass
+
+    @abstractmethod
+    def zeros_left(self, row: List[int]):
+        pass
+
+    @abstractmethod
+    def zeros_up(self, row: List[int]):
+        pass
+
+    @abstractmethod
+    def zeros_down(self, row: List[int]):
+        pass
+
+    @abstractmethod
+    def sum_right(self, row: List[int]):
+        pass
+
+    @abstractmethod
+    def sum_left(self, row: List[int]):
+        pass
+
+    @abstractmethod
+    def sum_up(self, row: List[int]):
+        pass
+
+    @abstractmethod
+    def sum_down(self, row: List[int]):
+        pass
+
 
 class Model(Playable2048):
     def __init__(self, side_length: int):
@@ -50,6 +99,7 @@ class Model(Playable2048):
         :param side_length: Number of cells on the side of the board.
         """
         self.matrix = self.get_new_matrix(side_length)
+        self.prev_matrix = self.matrix
         self.size = side_length
 
     def get_new_tile_number(self, pop=(2, 4), w=(0.9, 0.1)) -> int:
@@ -79,3 +129,46 @@ class Model(Playable2048):
 
     def get_matrix(self) -> List[List[int]]:
         return self.matrix
+
+    def move_up(self):
+        pass
+
+    def move_left(self):
+        self.prev_matrix = copy.deepcopy(self.matrix)
+
+        for row in self.matrix:
+            self.zeros_right(row)
+            self.sum_left(row)
+            self.zeros_right(row)
+
+        new_tile = self.get_empty_tile(self.matrix)
+
+    def move_down(self):
+        pass
+
+    def move_right(self):
+        pass
+
+    def zeros_right(self, row: List[int]):
+        pass
+
+    def zeros_left(self, row: List[int]):
+        pass
+
+    def zeros_up(self, row: List[int]):
+        pass
+
+    def zeros_down(self, row: List[int]):
+        pass
+
+    def sum_right(self, row: List[int]):
+        pass
+
+    def sum_left(self, row: List[int]):
+        pass
+
+    def sum_up(self, row: List[int]):
+        pass
+
+    def sum_down(self, row: List[int]):
+        pass
