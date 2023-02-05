@@ -1,29 +1,41 @@
 from abc import ABC, abstractmethod
 import tkinter as tk
+from typing import Optional
 import constants as c
 
 
 class View(ABC):
     @abstractmethod
-    def setup(self, controller):
+    def setup(self, controller: object) -> object:
+        """
+
+        :param controller:
+        """
         pass
 
     @abstractmethod
-    def init_grid(self, background):
+    def init_grid(self, background: Optional[tk.Misc]) -> Optional[tk.Misc]:
+        """
+
+        :param background:
+        """
         pass
 
     @abstractmethod
-    def update_grid_cells(self):
+    def update_grid_cells(self) -> object:
+        """
+
+        """
         pass
 
     @abstractmethod
-    def start_main_loop(self):
+    def start_main_loop(self) -> object:
         pass
 
 
 class GameGrid(tk.Frame, View):
 
-    def setup(self, controller):
+    def setup(self, controller: object):
         tk.Frame.__init__(self)
 
         self.grid()

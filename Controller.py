@@ -5,7 +5,12 @@ from View import GameGrid
 
 
 class Controller:
-    def __init__(self, model, view):
+    def __init__(self, model: object, view: object):
+        """
+
+        :param model: game logic
+        :param view: game UI
+        """
         self.model = model
         self.view = view
 
@@ -23,7 +28,7 @@ class Controller:
 
     def reset(self):
         self.view.destroy()
-        self.model = Model(4)  # todo: avoid hardcoded length
+        self.model = Model(self.model.size)
         self.start()
 
 

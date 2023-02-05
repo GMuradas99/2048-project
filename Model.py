@@ -32,13 +32,17 @@ class Playable2048(ABC):
 
     @abstractmethod
     def get_empty_tile(self, board: List[List[int]]) -> Tuple[int, int]:
+        """
+
+        :param board:
+        """
         pass
 
 
 class Model(Playable2048):
     def __init__(self, side_length: int):
         """
-        Model for 2048 game. Implements Playable2048.
+        Logic for 2048 game. Implements Playable2048.
         It is manipulated by the Controller class, and it updates the View class.
 
         At initialization, it creates a new board with two randomly positioned tiles.
@@ -65,11 +69,11 @@ class Model(Playable2048):
     def get_new_matrix(self, length) -> List[List[int]]:
         m = [[0] * length for i in range(length)]
 
-        tile_1 = self.get_empty_tile(m)
-        tile_2 = self.get_empty_tile(m)
+        tile = self.get_empty_tile(m)
+        m[tile[0]][tile[1]] = self.get_new_tile_number()
 
-        m[tile_1[0]][tile_1[1]] = self.get_new_tile_number()
-        m[tile_2[0]][tile_2[1]] = self.get_new_tile_number()
+        tile = self.get_empty_tile(m)
+        m[tile[0]][tile[1]] = self.get_new_tile_number()
 
         return m
 
