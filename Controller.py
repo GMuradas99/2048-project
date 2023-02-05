@@ -48,6 +48,7 @@ class Controller:
 
     def move_left(self):
         self.model.move_left()
+        self.view.update_grid_cells()
 
     def move_down(self):
         self.model.move_down()

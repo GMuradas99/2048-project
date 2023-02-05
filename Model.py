@@ -150,7 +150,16 @@ class Model(Playable2048):
         pass
 
     def zeros_right(self, row: List[int]):
-        pass
+        result = []
+        for i in range(self.size):
+            j = 3 - i
+            if row[j] == 0:
+                result.append(row[j])
+            else:
+                result.insert(0, row[j])
+
+        for i in range(self.size):
+            row[i] = result[i]
 
     def zeros_left(self, row: List[int]):
         pass
@@ -165,7 +174,10 @@ class Model(Playable2048):
         pass
 
     def sum_left(self, row: List[int]):
-        pass
+        for i in range(self.size - 1):
+            if row[i] == row[i + 1]:
+                row[i + 1] = 0
+                row[i] = row[i] * 2
 
     def sum_up(self, row: List[int]):
         pass
