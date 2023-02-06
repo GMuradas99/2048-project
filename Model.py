@@ -67,7 +67,6 @@ class Model(Playable2048):
         :param side_length: Number of cells on the side of the board.
         """
         self.matrix = self.get_new_matrix(side_length)
-        self.prev_matrix = self.matrix
         self.size = side_length
 
     def get_new_tile_number(self, pop=(2, 4), w=(0.9, 0.1)) -> int:
@@ -98,7 +97,8 @@ class Model(Playable2048):
     def get_matrix(self) -> List[List[int]]:
         return self.matrix
 
-    def transpose(self, mat):
+    @staticmethod
+    def transpose(mat):
         new = []
         for i in range(len(mat[0])):
             new.append([])
@@ -107,14 +107,11 @@ class Model(Playable2048):
         return new
 
     def move_up(self):
-
         self.matrix = self.transpose(self.matrix)
         self.move_left()
         self.matrix = self.transpose(self.matrix)
 
     def move_left(self):
-        self.prev_matrix = copy.deepcopy(self.matrix)
-
         for row in self.matrix:
             self.zeros_right(row)
             self.sum_left(row)
