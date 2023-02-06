@@ -7,15 +7,11 @@ from random import choices, randrange
 class Playable2048(ABC):
 
     @abstractmethod
-    def get_new_matrix(self, side_length: int) -> List[List[int]]:
+    def init_matrix(self):
         """
         Creates a new board with two randomly positioned tiles.
         (?) All boards must be squares and the side dimensions must be a multiple of two (?).
 
-        :param side_length: Number of cells on the side of the board.
-        Default value: 4
-        :rtype: List[List[int]]
-        :return board: A matrix of integers with two non-zero tiles
         """
         pass
 
@@ -32,10 +28,9 @@ class Playable2048(ABC):
         pass
 
     @abstractmethod
-    def get_empty_tile(self, board: List[List[int]]) -> Tuple[int, int]:
+    def get_empty_tile(self) -> Tuple[int, int]:
         """
-
-        :param board:
+        Searches the matrix and returns
         """
         pass
 
@@ -66,7 +61,8 @@ class Model(Playable2048):
 
         :param side_length: Number of cells on the side of the board.
         """
-        self.matrix = self.get_new_matrix(side_length)
+        self.matrix = [[0] * side_length for i in range(side_length)]
+        self.init_matrix()
         self.size = side_length
 
     def get_new_tile_number(self, pop=(2, 4), w=(0.9, 0.1)) -> int:
@@ -74,25 +70,21 @@ class Model(Playable2048):
 
         return result[0]
 
-    def get_empty_tile(self, matrix):
+    def get_empty_tile(self):
         x, y = 0, 0
-        size = len(matrix)
+        size = len(self.matrix)
         while True:
             x, y = randrange(size), randrange(size)
-            if matrix[x][y] == 0:
+            if self.matrix[x][y] == 0:
                 break
         return x, y
 
-    def get_new_matrix(self, length) -> List[List[int]]:
-        m = [[0] * length for i in range(length)]
+    def init_matrix(self):
+        tile = self.get_empty_tile()
+        self.matrix[tile[0]][tile[1]] = self.get_new_tile_number()
 
-        tile = self.get_empty_tile(m)
-        m[tile[0]][tile[1]] = self.get_new_tile_number()
-
-        tile = self.get_empty_tile(m)
-        m[tile[0]][tile[1]] = self.get_new_tile_number()
-
-        return m
+        tile = self.get_empty_tile()
+        self.matrix[tile[0]][tile[1]] = self.get_new_tile_number()
 
     def get_matrix(self) -> List[List[int]]:
         return self.matrix
@@ -117,7 +109,8 @@ class Model(Playable2048):
             self.sum_left(row)
             self.zeros_right(row)
 
-        self.get_empty_tile(self.matrix)
+        new_tile = self.get_empty_tile()
+        self.matrix[new_tile[0]][new_tile[1]] = self.get_new_tile_number()
 
     def move_down(self):
         self.matrix = self.transpose(self.matrix)
@@ -131,7 +124,8 @@ class Model(Playable2048):
             self.sum_right(row)
             self.zeros_left(row)
 
-        self.get_empty_tile(self.matrix)
+        new_tile = self.get_empty_tile()
+        self.matrix[new_tile[0]][new_tile[1]] = self.get_new_tile_number()
 
     def zeros_right(self, row: List[int]):
         result = []
