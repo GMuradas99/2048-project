@@ -22,7 +22,7 @@ class View(ABC):
         pass
 
     @abstractmethod
-    def update_grid_cells(self) -> object:
+    def update_grid_cells(self, controller: object) -> object:
         """
 
         """
@@ -40,9 +40,6 @@ class GameGrid(tk.Frame, View):
 
         self.grid()
         self.master.title('2048')
-
-        self.master.commands = {
-        }
 
         self.master.frame = tk.Frame(self, bg=c.BACKGROUND_COLOR_GAME, width=c.SIZE, height=c.SIZE)
         self.grid_cells = []
@@ -81,7 +78,9 @@ class GameGrid(tk.Frame, View):
                 grid_row.append(t)
             self.grid_cells.append(grid_row)
 
-    def update_grid_cells(self):
+    def update_grid_cells(self, controller):
+        self.matrix = controller.model.get_matrix()
+
         for i in range(c.GRID_LEN):
             for j in range(c.GRID_LEN):
                 new_number = self.matrix[i][j]
