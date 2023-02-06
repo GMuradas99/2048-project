@@ -120,7 +120,9 @@ class Model(Playable2048):
         self.get_empty_tile(self.matrix)
 
     def move_down(self):
-        pass
+        self.matrix = self.transpose(self.matrix)
+        self.move_right()
+        self.matrix = self.transpose(self.matrix)
 
     def move_right(self):
 
