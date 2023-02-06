@@ -55,38 +55,6 @@ class Playable2048(ABC):
     def move_right(self):
         pass
 
-    @abstractmethod
-    def zeros_right(self, row: List[int]):
-        pass
-
-    @abstractmethod
-    def zeros_left(self, row: List[int]):
-        pass
-
-    @abstractmethod
-    def zeros_up(self, row: List[int]):
-        pass
-
-    @abstractmethod
-    def zeros_down(self, row: List[int]):
-        pass
-
-    @abstractmethod
-    def sum_right(self, row: List[int]):
-        pass
-
-    @abstractmethod
-    def sum_left(self, row: List[int]):
-        pass
-
-    @abstractmethod
-    def sum_up(self, row: List[int]):
-        pass
-
-    @abstractmethod
-    def sum_down(self, row: List[int]):
-        pass
-
 
 class Model(Playable2048):
     def __init__(self, side_length: int):
@@ -130,8 +98,19 @@ class Model(Playable2048):
     def get_matrix(self) -> List[List[int]]:
         return self.matrix
 
+    def transpose(self, mat):
+        new = []
+        for i in range(len(mat[0])):
+            new.append([])
+            for j in range(len(mat)):
+                new[i].append(mat[j][i])
+        return new
+
     def move_up(self):
-        pass
+
+        self.matrix = self.transpose(self.matrix)
+        self.move_left()
+        self.matrix = self.transpose(self.matrix)
 
     def move_left(self):
         self.prev_matrix = copy.deepcopy(self.matrix)
@@ -141,20 +120,19 @@ class Model(Playable2048):
             self.sum_left(row)
             self.zeros_right(row)
 
-        new_tile = self.get_empty_tile(self.matrix)
+        self.get_empty_tile(self.matrix)
 
     def move_down(self):
         pass
 
     def move_right(self):
-        self.prev_matrix = copy.deepcopy(self.matrix)
 
         for row in self.matrix:
             self.zeros_left(row)
             self.sum_right(row)
             self.zeros_left(row)
 
-        new_tile = self.get_empty_tile(self.matrix)
+        self.get_empty_tile(self.matrix)
 
     def zeros_right(self, row: List[int]):
         result = []
