@@ -45,6 +45,7 @@ class Controller:
 
     def move_up(self):
         self.model.move_up()
+        self.view.update_grid_cells()
 
     def move_left(self):
         self.model.move_left()
@@ -52,9 +53,11 @@ class Controller:
 
     def move_down(self):
         self.model.move_down()
+        self.view.update_grid_cells()
 
     def move_right(self):
-        self.model.move_rigth()
+        self.model.move_right()
+        self.view.update_grid_cells()
 
 
 game = Controller(Model(4), GameGrid())
