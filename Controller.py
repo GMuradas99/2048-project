@@ -16,7 +16,7 @@ class Controller:
 
     def start(self):
         self.view.setup(self)
-        self.view.update_grid_cells()
+        self.view.update_grid_cells(self)
 
         self.view.master.bind('<KeyPress>', self.key_pressed)
 
@@ -45,19 +45,19 @@ class Controller:
 
     def move_up(self):
         self.model.move_up()
-        self.view.update_grid_cells()
+        self.view.update_grid_cells(self)
 
     def move_left(self):
         self.model.move_left()
-        self.view.update_grid_cells()
+        self.view.update_grid_cells(self)
 
     def move_down(self):
         self.model.move_down()
-        self.view.update_grid_cells()
+        self.view.update_grid_cells(self)
 
     def move_right(self):
         self.model.move_right()
-        self.view.update_grid_cells()
+        self.view.update_grid_cells(self)
 
 
 game = Controller(Model(4), GameGrid())
