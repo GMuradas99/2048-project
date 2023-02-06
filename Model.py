@@ -147,12 +147,19 @@ class Model(Playable2048):
         pass
 
     def move_right(self):
-        pass
+        self.prev_matrix = copy.deepcopy(self.matrix)
+
+        for row in self.matrix:
+            self.zeros_left(row)
+            self.sum_right(row)
+            self.zeros_left(row)
+
+        new_tile = self.get_empty_tile(self.matrix)
 
     def zeros_right(self, row: List[int]):
         result = []
         for i in range(self.size):
-            j = 3 - i
+            j = self.size - 1 - i
             if row[j] == 0:
                 result.append(row[j])
             else:
@@ -162,7 +169,15 @@ class Model(Playable2048):
             row[i] = result[i]
 
     def zeros_left(self, row: List[int]):
-        pass
+        result = []
+        for tile in row:
+            if tile == 0:
+                result.insert(0, tile)
+            else:
+                result.append(tile)
+
+        for i in range(self.size):
+            row[i] = result[i]
 
     def zeros_up(self, row: List[int]):
         pass
@@ -171,7 +186,11 @@ class Model(Playable2048):
         pass
 
     def sum_right(self, row: List[int]):
-        pass
+        for i in range(self.size - 1):
+            j = self.size - 1 - i
+            if row[j] == row[j - 1]:
+                row[j - 1] = 0
+                row[j] = row[j] * 2
 
     def sum_left(self, row: List[int]):
         for i in range(self.size - 1):
