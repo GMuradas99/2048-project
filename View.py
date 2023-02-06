@@ -45,9 +45,6 @@ class GameGrid(tk.Frame, View):
         self.grid_cells = []
         self.init_grid(self.master.frame)
 
-        self.matrix = controller.model.get_matrix()
-        self.history_matrixs = []
-
     def init_grid(self, background):
         background.grid()
 
@@ -79,11 +76,11 @@ class GameGrid(tk.Frame, View):
             self.grid_cells.append(grid_row)
 
     def update_grid_cells(self, controller):
-        self.matrix = controller.model.get_matrix()
+        matrix = controller.model.get_matrix()
 
         for i in range(c.GRID_LEN):
             for j in range(c.GRID_LEN):
-                new_number = self.matrix[i][j]
+                new_number = matrix[i][j]
                 if new_number == 0:
                     self.grid_cells[i][j].configure(text="", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
                 else:
