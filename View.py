@@ -8,23 +8,32 @@ class View(ABC):
     @abstractmethod
     def setup(self, controller: object) -> object:
         """
+        Binding method of GameGrid UI. Implements view class and connects the initial Model to View.
+        The controller object must be passed because it allows the UI to access
+        the game Matrix held by the Model.
 
-        :param controller:
+        :param controller: Controller instance.
         """
         pass
 
     @abstractmethod
     def init_grid(self, background: Optional[tk.Misc]) -> Optional[tk.Misc]:
         """
+        UI initialization method.
 
-        :param background:
+        :param background: tkinter grid.
         """
         pass
 
     @abstractmethod
     def update_grid_cells(self, controller: object) -> object:
         """
+        Updates grid after user action.
 
+        The controller object must be passed because it allows the UI to access
+        the game Matrix held by the Model.
+
+        :param controller: Controller instance.
         """
         pass
 
