@@ -98,6 +98,10 @@ class Model(Playable2048):
                 new[i].append(mat[j][i])
         return new
 
+    def insert_new_tile(self):
+        new_tile = self.get_empty_tile()
+        self.matrix[new_tile[0]][new_tile[1]] = self.get_new_tile_number()
+
     def move_up(self):
         self.matrix = self.transpose(self.matrix)
         self.move_left()
@@ -109,8 +113,7 @@ class Model(Playable2048):
             self.sum_left(row)
             self.zeros_right(row)
 
-        new_tile = self.get_empty_tile()
-        self.matrix[new_tile[0]][new_tile[1]] = self.get_new_tile_number()
+        self.insert_new_tile()
 
     def move_down(self):
         self.matrix = self.transpose(self.matrix)
@@ -124,8 +127,7 @@ class Model(Playable2048):
             self.sum_right(row)
             self.zeros_left(row)
 
-        new_tile = self.get_empty_tile()
-        self.matrix[new_tile[0]][new_tile[1]] = self.get_new_tile_number()
+        self.insert_new_tile()
 
     def zeros_right(self, row: List[int]):
         result = []
@@ -168,9 +170,3 @@ class Model(Playable2048):
             if row[i] == row[i + 1]:
                 row[i + 1] = 0
                 row[i] = row[i] * 2
-
-    def sum_up(self, row: List[int]):
-        pass
-
-    def sum_down(self, row: List[int]):
-        pass
