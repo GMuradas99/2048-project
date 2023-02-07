@@ -90,13 +90,21 @@ class Model(Playable2048):
         return self.matrix
 
     @staticmethod
-    def transpose(mat):
+    def transpose(mat: List[List[int]]):
         new = []
         for i in range(len(mat[0])):
             new.append([])
             for j in range(len(mat)):
                 new[i].append(mat[j][i])
         return new
+
+    @staticmethod
+    def compare(mat_1: List[List[int]], mat_2: List[List[int]]) -> bool:
+        for i in range(len(mat_1)):
+            for j in range(len(mat_1[0])):
+                if mat_1[i][j] != mat_2[i][j]:
+                    return False
+        return True
 
     def insert_new_tile(self):
         new_tile = self.get_empty_tile()
@@ -108,12 +116,15 @@ class Model(Playable2048):
         self.matrix = self.transpose(self.matrix)
 
     def move_left(self):
+        prev_matrix = copy.deepcopy(self.matrix)
+
         for row in self.matrix:
             self.zeros_right(row)
             self.sum_left(row)
             self.zeros_right(row)
 
-        self.insert_new_tile()
+        if not (self.compare(prev_matrix, self.matrix)):
+            self.insert_new_tile()
 
     def move_down(self):
         self.matrix = self.transpose(self.matrix)
@@ -121,13 +132,15 @@ class Model(Playable2048):
         self.matrix = self.transpose(self.matrix)
 
     def move_right(self):
+        prev_matrix = copy.deepcopy(self.matrix)
 
         for row in self.matrix:
             self.zeros_left(row)
             self.sum_right(row)
             self.zeros_left(row)
 
-        self.insert_new_tile()
+        if not (self.compare(prev_matrix, self.matrix)):
+            self.insert_new_tile()
 
     def zeros_right(self, row: List[int]):
         result = []
