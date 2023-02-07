@@ -152,12 +152,6 @@ class Model(Playable2048):
         for i in range(self.size):
             row[i] = result[i]
 
-    def zeros_up(self, row: List[int]):
-        pass
-
-    def zeros_down(self, row: List[int]):
-        pass
-
     def sum_right(self, row: List[int]):
         for i in range(self.size - 1):
             j = self.size - 1 - i
