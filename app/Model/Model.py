@@ -1,7 +1,7 @@
 import copy
 from typing import List, Tuple, Any
 from random import choices, randrange
-from app.Model.Model import Playable2048
+from app.Model.Playable2048 import Playable2048
 
 
 class Model(Playable2048):

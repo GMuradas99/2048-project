@@ -63,6 +63,3 @@ class Controller:
         # todo: maybe this update call should happen from Model instance
         self.view.update_grid_cells(self.model)
 
-
-game = Controller(Model(4), GameGrid())
-game.start()
