@@ -6,13 +6,13 @@ import constants as c
 
 class View(ABC):
     @abstractmethod
-    def setup(self, controller: object) -> object:
+    def setup(self, model: object) -> object:
         """
         Binding method of GameGrid UI. Implements view class and connects the initial Model to View.
-        The controller object must be passed because it allows the UI to access
-        the game Matrix held by the Model.
+        The model object must be passed because it allows the UI to access
+        the game matrix.
 
-        :param controller: Controller instance.
+        :param model: Model instance.
         """
         pass
 
@@ -44,12 +44,11 @@ class View(ABC):
 
 class GameGrid(tk.Frame, View):
 
-    def setup(self, controller: object):
+    def setup(self, model: object):
         tk.Frame.__init__(self)
 
         self.grid()
         self.master.title('2048')
-
         self.master.frame = tk.Frame(self, bg=c.BACKGROUND_COLOR_GAME, width=c.SIZE, height=c.SIZE)
         self.grid_cells = []
         self.init_grid(self.master.frame)
@@ -84,8 +83,8 @@ class GameGrid(tk.Frame, View):
                 grid_row.append(t)
             self.grid_cells.append(grid_row)
 
-    def update_grid_cells(self, controller):
-        matrix = controller.model.get_matrix()
+    def update_grid_cells(self, model):
+        matrix = model.get_matrix()
 
         for i in range(c.GRID_LEN):
             for j in range(c.GRID_LEN):
