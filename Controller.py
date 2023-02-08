@@ -15,8 +15,8 @@ class Controller:
         self.view = view
 
     def start(self):
-        self.view.setup(self)
-        self.view.update_grid_cells(self)
+        self.view.setup(self.model)
+        self.view.update_grid_cells(self.model)
 
         self.view.master.bind('<KeyPress>', self.key_pressed)
 
@@ -46,22 +46,22 @@ class Controller:
     def move_up(self):
         self.model.move_up()
         # todo: maybe this update call should happen from Model instance
-        self.view.update_grid_cells(self)
+        self.view.update_grid_cells(self.model)
 
     def move_left(self):
         self.model.move_left()
         # todo: maybe this update call should happen from Model instance
-        self.view.update_grid_cells(self)
+        self.view.update_grid_cells(self.model)
 
     def move_down(self):
         self.model.move_down()
         # todo: maybe this update call should happen from Model instance
-        self.view.update_grid_cells(self)
+        self.view.update_grid_cells(self.model)
 
     def move_right(self):
         self.model.move_right()
         # todo: maybe this update call should happen from Model instance
-        self.view.update_grid_cells(self)
+        self.view.update_grid_cells(self.model)
 
 
 game = Controller(Model(4), GameGrid())
