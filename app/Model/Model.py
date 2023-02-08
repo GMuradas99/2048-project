@@ -131,6 +131,7 @@ class Model(Playable2048):
                 row[i + 1] = 0
                 row[i] = row[i] * 2
 
+    # todo: game over logic is not working. Problem is most likely in 'next_move_possible()'
     def game_over(self, prev_matrix) -> bool:
         """
         In this implementation, the method is also responsible for inserting
