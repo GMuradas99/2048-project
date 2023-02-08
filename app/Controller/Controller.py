@@ -1,5 +1,5 @@
-from Model.Model import Model
-from View.View import GameGrid
+from app.Model.Model import Model
+from app.View.GameGrid import GameGrid
 
 
 class Controller:
