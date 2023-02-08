@@ -1,6 +1,6 @@
 import copy
 from abc import ABC, abstractmethod
-from typing import List, Tuple
+from typing import List, Tuple, Any
 from random import choices, randrange
 
 
@@ -48,6 +48,16 @@ class Playable2048(ABC):
 
     @abstractmethod
     def move_right(self):
+        pass
+
+    @abstractmethod
+    def game_over(self, prev_mat: List[List[int]]) -> bool:
+        """
+        If all tiles are non-empty and no movements are possible, it returns true.
+        Otherwise false.
+
+        :rtype: bool
+        """
         pass
 
 
@@ -123,8 +133,8 @@ class Model(Playable2048):
             self.sum_left(row)
             self.zeros_right(row)
 
-        if not (self.compare(prev_matrix, self.matrix)):
-            self.insert_new_tile()
+        if not self.game_over(prev_matrix):
+            pass
 
     def move_down(self):
         self.matrix = self.transpose(self.matrix)
@@ -139,8 +149,8 @@ class Model(Playable2048):
             self.sum_right(row)
             self.zeros_left(row)
 
-        if not (self.compare(prev_matrix, self.matrix)):
-            self.insert_new_tile()
+        if not self.game_over(prev_matrix):
+            pass
 
     def zeros_right(self, row: List[int]):
         result = []
@@ -177,3 +187,80 @@ class Model(Playable2048):
             if row[i] == row[i + 1]:
                 row[i + 1] = 0
                 row[i] = row[i] * 2
+
+    def game_over(self, prev_matrix) -> bool:
+        """
+        In this implementation, the method is also responsible for inserting
+        new tiles when allowed by compare method.
+
+        :param prev_matrix: matrix state before move.
+
+        """
+        if self.compare(prev_matrix, self.matrix):
+            # if board hasn't changed after move attempt,
+            # check for zeroes:
+            if not self.has_zeros(self.matrix):
+                # check if next move is possible: in any of the 4 directions
+                if not self.next_move_possible()[0]:
+                    print("GAME OVER")
+                    return True
+        else:
+            self.insert_new_tile()
+
+        return False
+
+    def next_move_possible(self) -> Tuple[bool, List[Any]]:
+        """
+        Possible example of a 3x3 cell grid. Assume we want to check if the cell at position 1,2
+        can be added to adjacent cells:
+
+        2   2   2
+        4   2   8
+        16  64  2
+               ...
+        the i,j indexes are:
+
+        0,0 0,1 0,2
+        1,0 1,1 1,2
+        2,0 2,1 2,2
+
+        the indexes to be checked are (i-1,j-1), (i-1,j), (i-1,j+1)
+                                       (i,j-1),    (i,j),  (i,j+1)
+                                      (i+1,j-1), (i+1,j), (i+1,j+1)
+        For every cell in range it must check the adjacent cells to see if they are equal.
+        If any of the neighbouring cells are the same, then a move is possible
+        """
+        offsets = [[-1, 0], [0, -1], [0, 1], [1, 0]]
+        directions = ["up", "left", "right", "down"]
+        options = []
+
+        grid_limits = [0, self.size - 1]
+
+        for i in range(self.size):
+            for j in range(self.size):
+                # for every tile in the grid, check all offsets until an addition
+                # can be performed
+                for offset, direction in zip(offsets, directions):
+                    m, n = offset[0] + i, offset[1] + j
+                    if m in grid_limits and n in grid_limits:
+                        # if a neighbouring tile has the same number as the tile being
+                        # evaluated, a move is possible in that direction.
+                        if self.matrix[m][n] == self.matrix[i][j]:
+
+                            if direction not in options:
+                                options.append(direction)
+
+                            if options == directions:
+                                return True, options
+        if len(options) > 0:
+            return True, options
+
+        return False, options
+
+    @staticmethod
+    def has_zeros(mat: List[List[int]]):
+        for _ in mat:
+            if 0 in mat:
+                return True
+
+        return False
